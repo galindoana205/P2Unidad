@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Marimba Chapina - Música Guatemalteca</title>
+  <style>
+    /* ── VARIABLES DE COLOR ── */
+    :root {
+      --azul:     #0d1b4b;
+      --dorado:   #c8952a;
+      --crema:    #f5efe0;
+      --cafe:     #6b3a1f;
+      --blanco:   #ffffff;
+      --sombra:   rgba(0,0,0,0.25);
+    }
+
+    /* ── RESET BÁSICO ── */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: Georgia, serif;
+      background-color: var(--crema);
+      color: var(--azul);
+    }
+
+    /* ────────────────────────────────────────
+       1. BANNER (etiqueta <header> + <canvas>)
+    ──────────────────────────────────────── */
+    header {
+      background-color: var(--azul);
+      padding: 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Canvas que crea el fondo decorativo del banner */
+    #bannerCanvas {
+      display: block;
+      width: 100%;
+      height: 220px;
+    }
+
+    .banner-texto {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      color: var(--blanco);
+    }
+
+    .banner-texto h1 {
+      font-size: 3rem;
+      color: var(--dorado);
+      text-shadow: 3px 3px 8px var(--sombra);
+      letter-spacing: 4px;
+    }
+
+    .banner-texto p {
+      font-size: 1.1rem;
+      color: var(--crema);
+      margin-top: 8px;
+    }
+
+    /* ── BARRA DE NAVEGACIÓN (hipervínculos) ── */
+    nav {
+      background-color: var(--cafe);
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      padding: 14px 0;
+    }
+
+    nav a {
+      color: var(--crema);
+      text-decoration: none;
+      font-size: 1rem;
+      letter-spacing: 1px;
+      padding: 6px 12px;
+      border-radius: 4px;
+      transition: background 0.3s;
+    }
+
+    nav a:hover {
+      background-color: var(--dorado);
+      color: var(--azul);
+    }
+
+    /* ── SECCIONES GENERALES ── */
+    section {
+      max-width: 1100px;
+      margin: 50px auto;
+      padding: 0 20px;
+    }
+
+    section h2 {
+      font-size: 2rem;
+      color: var(--cafe);
+      border-left: 6px solid var(--dorado);
+      padding-left: 14px;
+      margin-bottom: 24px;
+    }
+
+    /* ────────────────────────────────────────
+       2. INFORMACIÓN / TEXTO
+    ──────────────────────────────────────── */
+    #info p {
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: #333;
+      margin-bottom: 14px;
+    }
+
+    /* ────────────────────────────────────────
+       3. GALERÍA DE IMÁGENES (<img>)
+    ──────────────────────────────────────── */
+    .galeria {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 16px;
+    }
+
+    .galeria figure {
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 14px var(--sombra);
+      background: var(--blanco);
+    }
+
+    .galeria img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s;
+    }
+
+    .galeria img:hover { transform: scale(1.05); }
+
+    .galeria figcaption {
+      text-align: center;
+      padding: 10px;
+      font-size: 0.9rem;
+      color: var(--cafe);
+      font-style: italic;
+    }
+
+    /* ────────────────────────────────────────
+       4. VIDEO DE YOUTUBE (<iframe>)
+    ──────────────────────────────────────── */
+    .video-wrapper {
+      position: relative;
+      padding-bottom: 56.25%; /* 16:9 */
+      height: 0;
+      overflow: hidden;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px var(--sombra);
+    }
+
+    .video-wrapper iframe {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      border: none;
+    }
+
+    /* ────────────────────────────────────────
+       5. CANVAS DECORATIVO
+    ──────────────────────────────────────── */
+    #decorCanvas {
+      display: block;
+      margin: 0 auto;
+      border: 3px solid var(--dorado);
+      border-radius: 12px;
+      box-shadow: 0 4px 14px var(--sombra);
+    }
+
+    /* ────────────────────────────────────────
+       6. FORMULARIO (<form>)
+    ──────────────────────────────────────── */
+    .formulario {
+      background: var(--blanco);
+      padding: 36px;
+      border-radius: 14px;
+      box-shadow: 0 6px 20px var(--sombra);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .formulario label {
+      display: block;
+      font-weight: bold;
+      margin-top: 18px;
+      margin-bottom: 6px;
+      color: var(--cafe);
+    }
+
+    .formulario input[type="text"],
+    .formulario input[type="email"],
+    .formulario select,
+    .formulario textarea {
+      width: 100%;
+      padding: 10px 14px;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-family: Georgia, serif;
+      transition: border-color 0.3s;
+    }
+
+    .formulario input:focus,
+    .formulario select:focus,
+    .formulario textarea:focus {
+      outline: none;
+      border-color: var(--dorado);
+    }
+
+    .formulario textarea { resize: vertical; height: 100px; }
+
+    .formulario button {
+      margin-top: 24px;
+      width: 100%;
+      padding: 14px;
+      background-color: var(--dorado);
+      color: var(--azul);
+      font-size: 1.1rem;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .formulario button:hover { background-color: var(--cafe); color: var(--blanco); }
+
+    /* ────────────────────────────────────────
+       7. HIPERVÍNCULOS (<a>)
+    ──────────────────────────────────────── */
+    .links-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .links-grid a {
+      display: inline-block;
+      background-color: var(--azul);
+      color: var(--crema);
+      padding: 14px 28px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 1rem;
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    .links-grid a:hover {
+      background-color: var(--dorado);
+      color: var(--azul);
+      transform: translateY(-3px);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background-color: var(--azul);
+      color: var(--crema);
+      text-align: center;
+      padding: 30px 20px;
+      margin-top: 60px;
+      font-size: 0.95rem;
+    }
+
+    footer span { color: var(--dorado); }
+  </style>
+</head>
+<body>
+
+  <!-- ══════════════════════════════════════
+       1. BANNER con CANVAS
+  ══════════════════════════════════════ -->
+  <header>
+    <canvas id="bannerCanvas"></canvas>
+    <div class="banner-texto">
+      <h1>Marimba Chapina</h1>
+      <p>Llevando la música guatemalteca al mundo</p>
+    </div>
+  </header>
+
+  <!-- ══════════════════════════════════════
+       HIPERVÍNCULOS DE NAVEGACIÓN
+  ══════════════════════════════════════ -->
+  <nav>
+    <a href="#info">Inicio</a>
+    <a href="#galeria">Galería</a>
+    <a href="#video">Video</a>
+    <a href="#formulario">Contacto</a>
+    <a href="#enlaces">Enlaces</a>
+  </nav>
+
+  <!-- ══════════════════════════════════════
+       2. INFORMACIÓN (textos)
+  ══════════════════════════════════════ -->
+  <section id="info">
+    <h2>¿Quiénes somos?</h2>
+    <p>
+      <strong>Marimba Chapina</strong> es una empresa guatemalteca dedicada a 
+      promover y difundir la música de marimba a nivel mundial. La marimba es 
+      el instrumento nacional de Guatemala y un símbolo de nuestra identidad cultural.
+    </p>
+    <p>
+      Nuestro objetivo es llevar los acordes de la marimba a escenarios 
+      internacionales, preservando la tradición y fusionándola con nuevas 
+      corrientes musicales para que el mundo entero pueda disfrutarla.
+    </p>
+    <p>
+      Contamos con músicos profesionales, eventos culturales, grabaciones 
+      y programas educativos para niños y jóvenes que quieran aprender 
+      a tocar este hermoso instrumento.
+    </p>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       3. GALERÍA DE IMÁGENES
+  ══════════════════════════════════════ -->
+  <section id="galeria">
+    <h2>Galería</h2>
+    <div class="galeria">
+
+      <figure>
+        <img 
+          src="C:\Users\lovie\Desktop\Tecnología - Robótica Prouecto Final\evento.jpg"
+          alt="Marimba de concierto"
+          width="300" height="200">
+        <figcaption>Eventos</figcaption>
+      </figure>
+
+      <figure>
+        <img 
+          src="C:\Users\lovie\Desktop\Tecnología - Robótica Prouecto Final\evento2.jpg"
+          alt="Teclas de marimba"
+          width="300" height="200">
+        <figcaption>Eventos</figcaption>
+      </figure>
+
+      <figure>
+        <img 
+          src="C:\Users\lovie\Desktop\Tecnología - Robótica Prouecto Final\marimba.jpg"
+          alt="Músico guatemalteco tocando marimba"
+          width="300" height="200">
+        <figcaption>Marimba</figcaption>
+      </figure>
+
+      <figure>
+        <img 
+          src="C:\Users\lovie\Desktop\Tecnología - Robótica Prouecto Final\concierto.jpg"
+          alt="Bandera de Guatemala"
+          width="300" height="200">
+        <figcaption>Orgullo chapín</figcaption>
+      </figure>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       4. VIDEO DE YOUTUBE
+  ══════════════════════════════════════ -->
+  <section id="video">
+  <h2>Video Destacado</h2>
+
+  <div class="video-wrapper">
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/wCuIT9FMA_A?si=Ek1BCSYCwtodBcEs&amp;controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+  </div>
+</section>
+  <!-- ══════════════════════════════════════
+       5. FORMULARIO DE CONTACTO
+  ══════════════════════════════════════ -->
+  <section id="formulario">
+    <h2>Contacto / Registro de Clientes</h2>
+    <div class="formulario">
+
+      <label for="nombre">Nombre completo:</label>
+      <input type="text" id="nombre" name="nombre"
+             placeholder="Tu nombre" required>
+
+      <label for="email">Correo electrónico:</label>
+      <input type="email" id="email" name="email"
+             placeholder="correo@ejemplo.com" required>
+
+      <label for="pais">País de origen:</label>
+      <select id="pais" name="pais" required>
+        <option value="">-- Selecciona tu país --</option>
+        <option value="guatemala">Guatemala</option>
+        <option value="mexico">México</option>
+        <option value="usa">Estados Unidos</option>
+        <option value="otro">Otro</option>
+      </select>
+
+      <label for="pasatiempo">Pasatiempos:</label>
+      <input type="text" id="pasatiempo" name="pasatiempo"
+             placeholder="Ej: música, baile, pintura">
+
+      <label for="mensaje">¿Por qué te interesa la marimba?</label>
+      <textarea id="mensaje" name="mensaje"
+                placeholder="Escribe tu mensaje aquí..."></textarea>
+
+      <button type="submit">Enviar información</button>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       6. HIPERVÍNCULOS EXTERNOS
+  ══════════════════════════════════════ -->
+  <section id="enlaces">
+    <h2>Mis Hipervínculos</h2>
+    <div class="links-grid">
+      <a href="https://www.prensalibre.com/vida/escenario/la-marimba-es-instrumento-nacional-y-simbolo-patrio-de-guatemala/">
+        📖 Prensa – Historia de la Marimba
+      </a>
+      <a href="https://www.youtube.com/embed/DyWeA-_EpT4?start=340" target="_blank">
+        🎬 YouTube – Marimba Guatemalteca
+     </a>
+      <a href=https://www.guatemala.com/aprende/historia/personajes/grupos-de-marimba-que-han-destacado-en-guatemala target="_blank">
+        🌎 GUATEMALA – Marimbas de Guatemala
+      </a>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       FOOTER
+  ══════════════════════════════════════ -->
+  <footer>
+    <p>© 2025 <span>Marimba Chapina</span> — Todos los derechos reservados</p>
+    <p style="margin-top:8px;">Hecho por Ana Lucia Oviedo Galindo en Guatemala 🇬🇹</p>
+  </footer>
+
+</body>
+</html>
